@@ -3,10 +3,16 @@ import './Board.css';
 import Square from './Square';
 import PropTypes from 'prop-types';
 
-
 const generateSquareComponents = (squares, onClickCallback) => {
-  // Complete this for Wave 1
-
+  const squareComponents = [];
+  squares.forEach(row => {
+    row.forEach(square => {      
+      squareComponents.push(
+        <Square id={square.id} value={square.value}/>
+      )
+    });
+  });
+  return squareComponents;
 }
 
 const Board = ({ squares, onClickCallback }) => {
