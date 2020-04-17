@@ -8,7 +8,7 @@ const generateSquareComponents = (squares, onClickCallback) => {
   squares.forEach(row => {
     row.forEach(square => {      
       squareComponents.push(
-        <Square id={square.id} value={square.value}/>
+        <Square key={square.id} id={square.id} value={square.value}/>
       )
     });
   });
