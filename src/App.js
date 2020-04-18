@@ -55,15 +55,48 @@ const App = () => {
         }
         newRow.push(square);
       });
+      checkForWinner();
       newSquares.push(newRow);
     })
 
     setSquares(newSquares);
   }
 
-
+  // For wave 3, you will add the game logic to detect if a player has one or if there is a tie (all squares filled and with no winner). To do this you will complete the checkForWinner method and display the winner in the header section. The game should also cease responding to clicks on the board if the game has a winner.  
+  
   const checkForWinner = () => {
-    // Complete in Wave 3
+    const flattenSquares = squares.flat();
+    const squareValues = flattenSquares.map(square => square.value);
+    
+    // index of layout
+    // 0 1 2
+    // 3 4 5
+    // 6 7 8
+        
+    if (
+      [squareValues[0], squareValues[1], squareValues[2]].every( value => value === PLAYER_1) || 
+      [squareValues[3], squareValues[4], squareValues[5]].every( value => value === PLAYER_1) || 
+      [squareValues[6], squareValues[7], squareValues[8]].every( value => value === PLAYER_1) || 
+      [squareValues[0], squareValues[3], squareValues[6]].every( value => value === PLAYER_1) || 
+      [squareValues[1], squareValues[4], squareValues[7]].every( value => value === PLAYER_1) || 
+      [squareValues[2], squareValues[5], squareValues[8]].every( value => value === PLAYER_1) || 
+      [squareValues[0], squareValues[4], squareValues[8]].every( value => value === PLAYER_1) || 
+      [squareValues[2], squareValues[4], squareValues[6]].every( value => value === PLAYER_1)
+      ) {
+      console.log('winner is ' + PLAYER_1);
+    }
+    if (
+      [squareValues[0], squareValues[1], squareValues[2]].every( value => value === PLAYER_2) || 
+      [squareValues[3], squareValues[4], squareValues[5]].every( value => value === PLAYER_2) || 
+      [squareValues[6], squareValues[7], squareValues[8]].every( value => value === PLAYER_2) || 
+      [squareValues[0], squareValues[3], squareValues[6]].every( value => value === PLAYER_2) || 
+      [squareValues[1], squareValues[4], squareValues[7]].every( value => value === PLAYER_2) || 
+      [squareValues[2], squareValues[5], squareValues[8]].every( value => value === PLAYER_2) || 
+      [squareValues[0], squareValues[4], squareValues[8]].every( value => value === PLAYER_2) || 
+      [squareValues[2], squareValues[4], squareValues[6]].every( value => value === PLAYER_2)
+      ) {
+      console.log('winner is ' + PLAYER_2);
+    }
 
   }
 
