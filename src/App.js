@@ -27,8 +27,18 @@ const generateSquares = () => {
 
 const App = () => {
   const [squares, setSquares] = useState(generateSquares());
+  console.log(squares);
 
   const [currentValue, setValue] = useState(PLAYER_1);  
+
+  // determine current player
+  const togglePlayer = () => {
+    if (currentValue === PLAYER_1) {
+      setValue(PLAYER_2);
+    } else {
+      setValue(PLAYER_1);
+    }
+  }
 
   const onClickCallback = (squareId) => {
     const newSquares = [];
@@ -36,9 +46,13 @@ const App = () => {
     squares.forEach((row) => {    
       const newRow = [];
       row.forEach(square => {
-        if (square.id === squareId) {
-          square.value = 'X'
-        } 
+        // only change square if it's empty
+        if (square.value === '') {
+          if (square.id === squareId) {
+            togglePlayer();
+            square.value = currentValue;
+          } 
+        }
         newRow.push(square);
       });
       newSquares.push(newRow);
