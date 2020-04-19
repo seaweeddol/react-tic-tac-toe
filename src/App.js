@@ -28,7 +28,7 @@ const generateSquares = () => {
 const App = () => {
   const [squares, setSquares] = useState(generateSquares());
   const [currentValue, setValue] = useState(PLAYER_1);  
-  const [winner, setWinner] = useState(false);
+  const [winner, setWinner] = useState('');
 
   // determine current player
   const togglePlayer = () => {
@@ -42,7 +42,7 @@ const App = () => {
   const onClickCallback = (squareId) => {
     const newSquares = [];
 
-    if (winner === true) {
+    if (winner !== '') {
       return;
     } else {
       squares.forEach((row) => {    
@@ -86,7 +86,7 @@ const App = () => {
       [squareValues[0], squareValues[4], squareValues[8]].every( value => value === PLAYER_1) || 
       [squareValues[2], squareValues[4], squareValues[6]].every( value => value === PLAYER_1)
       ) {
-      setWinner(true);
+      setWinner(PLAYER_1);
 
     }
     if (
@@ -99,7 +99,7 @@ const App = () => {
       [squareValues[0], squareValues[4], squareValues[8]].every( value => value === PLAYER_2) || 
       [squareValues[2], squareValues[4], squareValues[6]].every( value => value === PLAYER_2)
       ) {
-      setWinner(true);
+      setWinner(PLAYER_2);
     }
   }
 
@@ -111,7 +111,7 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <h1>React Tic Tac Toe</h1>
-        <h2>The winner is ... -- Fill in for wave 3 </h2>
+        <h2>The winner is ... {winner} </h2>
         <button>Reset Game</button>
       </header>
       <main>
