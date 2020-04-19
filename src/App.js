@@ -42,6 +42,7 @@ const App = () => {
   const onClickCallback = (squareId) => {
     const newSquares = [];
 
+    // if there is a winner, do not update board
     if (winner !== '') {
       return;
     } else {
@@ -64,8 +65,6 @@ const App = () => {
       setSquares(newSquares);  
     }
   }
-
-  // For wave 3, you will add the game logic to detect if a player has one or if there is a tie (all squares filled and with no winner). To do this you will complete the checkForWinner method and display the winner in the header section. The game should also cease responding to clicks on the board if the game has a winner.  
   
   const checkForWinner = () => {
     const flattenSquares = squares.flat();
@@ -104,7 +103,9 @@ const App = () => {
   }
 
   const resetGame = () => {
-    // Complete in Wave 4
+    setValue(PLAYER_1);
+    setWinner('');
+    setSquares(generateSquares);
   }
 
   return (
@@ -112,7 +113,7 @@ const App = () => {
       <header className="App-header">
         <h1>React Tic Tac Toe</h1>
         <h2>The winner is ... {winner} </h2>
-        <button>Reset Game</button>
+        <button onClick={resetGame}>Reset Game</button>
       </header>
       <main>
         <Board squares={squares} onClickCallback={onClickCallback}/>
