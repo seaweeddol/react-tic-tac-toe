@@ -86,9 +86,7 @@ const App = () => {
       [squareValues[2], squareValues[4], squareValues[6]].every( value => value === PLAYER_1)
       ) {
       setWinner(PLAYER_1);
-
-    }
-    if (
+    } else if (
       [squareValues[0], squareValues[1], squareValues[2]].every( value => value === PLAYER_2) || 
       [squareValues[3], squareValues[4], squareValues[5]].every( value => value === PLAYER_2) || 
       [squareValues[6], squareValues[7], squareValues[8]].every( value => value === PLAYER_2) || 
@@ -99,6 +97,8 @@ const App = () => {
       [squareValues[2], squareValues[4], squareValues[6]].every( value => value === PLAYER_2)
       ) {
       setWinner(PLAYER_2);
+    } else if (squareValues.every(value => value !== '')) {
+      setWinner('no one!');
     }
   }
 
