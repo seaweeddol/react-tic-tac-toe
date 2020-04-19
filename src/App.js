@@ -65,37 +65,27 @@ const App = () => {
       setSquares(newSquares);  
     }
   }
+
+  const checkForWinnerHelper = (squareValues, player) => {
+    return (
+      [squareValues[0], squareValues[1], squareValues[2]].every( value => value === player) || 
+      [squareValues[3], squareValues[4], squareValues[5]].every( value => value === player) || 
+      [squareValues[6], squareValues[7], squareValues[8]].every( value => value === player) || 
+      [squareValues[0], squareValues[3], squareValues[6]].every( value => value === player) || 
+      [squareValues[1], squareValues[4], squareValues[7]].every( value => value === player) || 
+      [squareValues[2], squareValues[5], squareValues[8]].every( value => value === player) || 
+      [squareValues[0], squareValues[4], squareValues[8]].every( value => value === player) || 
+      [squareValues[2], squareValues[4], squareValues[6]].every( value => value === player)
+    )
+  }
   
   const checkForWinner = () => {
     const flattenSquares = squares.flat();
     const squareValues = flattenSquares.map(square => square.value);
-    
-    // index of layout
-    // 0 1 2
-    // 3 4 5
-    // 6 7 8
-        
-    if (
-      [squareValues[0], squareValues[1], squareValues[2]].every( value => value === PLAYER_1) || 
-      [squareValues[3], squareValues[4], squareValues[5]].every( value => value === PLAYER_1) || 
-      [squareValues[6], squareValues[7], squareValues[8]].every( value => value === PLAYER_1) || 
-      [squareValues[0], squareValues[3], squareValues[6]].every( value => value === PLAYER_1) || 
-      [squareValues[1], squareValues[4], squareValues[7]].every( value => value === PLAYER_1) || 
-      [squareValues[2], squareValues[5], squareValues[8]].every( value => value === PLAYER_1) || 
-      [squareValues[0], squareValues[4], squareValues[8]].every( value => value === PLAYER_1) || 
-      [squareValues[2], squareValues[4], squareValues[6]].every( value => value === PLAYER_1)
-      ) {
+            
+    if (checkForWinnerHelper(squareValues, PLAYER_1)) {
       setWinner(PLAYER_1);
-    } else if (
-      [squareValues[0], squareValues[1], squareValues[2]].every( value => value === PLAYER_2) || 
-      [squareValues[3], squareValues[4], squareValues[5]].every( value => value === PLAYER_2) || 
-      [squareValues[6], squareValues[7], squareValues[8]].every( value => value === PLAYER_2) || 
-      [squareValues[0], squareValues[3], squareValues[6]].every( value => value === PLAYER_2) || 
-      [squareValues[1], squareValues[4], squareValues[7]].every( value => value === PLAYER_2) || 
-      [squareValues[2], squareValues[5], squareValues[8]].every( value => value === PLAYER_2) || 
-      [squareValues[0], squareValues[4], squareValues[8]].every( value => value === PLAYER_2) || 
-      [squareValues[2], squareValues[4], squareValues[6]].every( value => value === PLAYER_2)
-      ) {
+    } else if (checkForWinnerHelper(squareValues, PLAYER_2)) {
       setWinner(PLAYER_2);
     } else if (squareValues.every(value => value !== '')) {
       setWinner('no one!');
