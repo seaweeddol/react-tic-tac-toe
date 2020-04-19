@@ -27,9 +27,8 @@ const generateSquares = () => {
 
 const App = () => {
   const [squares, setSquares] = useState(generateSquares());
-  console.log(squares);
-
   const [currentValue, setValue] = useState(PLAYER_1);  
+  const [winner, setWinner] = useState(false);
 
   // determine current player
   const togglePlayer = () => {
@@ -42,24 +41,28 @@ const App = () => {
 
   const onClickCallback = (squareId) => {
     const newSquares = [];
-    
-    squares.forEach((row) => {    
-      const newRow = [];
-      row.forEach(square => {
-        // only change square if it's empty
-        if (square.value === '') {
-          if (square.id === squareId) {
-            togglePlayer();
-            square.value = currentValue;
-          } 
-        }
-        newRow.push(square);
-      });
-      checkForWinner();
-      newSquares.push(newRow);
-    })
 
-    setSquares(newSquares);
+    if (winner === true) {
+      return;
+    } else {
+      squares.forEach((row) => {    
+        const newRow = [];
+        row.forEach(square => {
+          // only change square if it's empty
+          if (square.value === '') {
+            if (square.id === squareId) {
+              togglePlayer();
+              square.value = currentValue;
+            } 
+          }
+          newRow.push(square);
+        });
+        newSquares.push(newRow);
+      })
+
+      checkForWinner();
+      setSquares(newSquares);  
+    }
   }
 
   // For wave 3, you will add the game logic to detect if a player has one or if there is a tie (all squares filled and with no winner). To do this you will complete the checkForWinner method and display the winner in the header section. The game should also cease responding to clicks on the board if the game has a winner.  
@@ -83,7 +86,8 @@ const App = () => {
       [squareValues[0], squareValues[4], squareValues[8]].every( value => value === PLAYER_1) || 
       [squareValues[2], squareValues[4], squareValues[6]].every( value => value === PLAYER_1)
       ) {
-      console.log('winner is ' + PLAYER_1);
+      setWinner(true);
+
     }
     if (
       [squareValues[0], squareValues[1], squareValues[2]].every( value => value === PLAYER_2) || 
@@ -95,9 +99,8 @@ const App = () => {
       [squareValues[0], squareValues[4], squareValues[8]].every( value => value === PLAYER_2) || 
       [squareValues[2], squareValues[4], squareValues[6]].every( value => value === PLAYER_2)
       ) {
-      console.log('winner is ' + PLAYER_2);
+      setWinner(true);
     }
-
   }
 
   const resetGame = () => {
