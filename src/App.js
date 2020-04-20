@@ -27,19 +27,15 @@ const generateSquares = () => {
 
 const App = () => {
   const [squares, setSquares] = useState(generateSquares());
-  const [currentValue, setValue] = useState(PLAYER_1);  
+  const [currentPlayer, setPlayer] = useState(PLAYER_1);  
   const [winner, setWinner] = useState('');
 
   // determine current player
   const togglePlayer = () => {
-    if (currentValue === PLAYER_1) {
-      setValue(PLAYER_2);
-    } else {
-      setValue(PLAYER_1);
-    }
+    (currentPlayer === PLAYER_1) ? setPlayer(PLAYER_2) : setPlayer(PLAYER_1);
   }
 
-  const onClickCallback = (squareId) => {
+  const onClickCallback = (clickedSquare) => {
     const newSquares = [];
 
     // if there is a winner, do not update board
@@ -51,9 +47,10 @@ const App = () => {
         row.forEach(square => {
           // only change square if it's empty
           if (square.value === '') {
-            if (square.id === squareId) {
+            // check if current square matches clicked square
+            if (square.id === clickedSquare) {
               togglePlayer();
-              square.value = currentValue;
+              square.value = currentPlayer;
             } 
           }
           newRow.push(square);
@@ -66,34 +63,46 @@ const App = () => {
     }
   }
 
-  const checkForWinnerHelper = (squareValues, player) => {
-    return (
-      [squareValues[0], squareValues[1], squareValues[2]].every( value => value === player) || 
-      [squareValues[3], squareValues[4], squareValues[5]].every( value => value === player) || 
-      [squareValues[6], squareValues[7], squareValues[8]].every( value => value === player) || 
-      [squareValues[0], squareValues[3], squareValues[6]].every( value => value === player) || 
-      [squareValues[1], squareValues[4], squareValues[7]].every( value => value === player) || 
-      [squareValues[2], squareValues[5], squareValues[8]].every( value => value === player) || 
-      [squareValues[0], squareValues[4], squareValues[8]].every( value => value === player) || 
-      [squareValues[2], squareValues[4], squareValues[6]].every( value => value === player)
-    )
+  // helper method for checkForWinnerHelper to check if all values in array are the same
+  const allMatch = (array, player) => {
+    // returns boolean value
+    return array.every(value => value === player);
   }
   
+  // helper method for checkForWinner
+  // checks if there are three of the same value in a 'row' (row/col/diagonal)
+  const checkForWinnerHelper = (squareValues, player) => {
+    return (
+      allMatch([squareValues[0], squareValues[1], squareValues[2]], player) || 
+      allMatch([squareValues[3], squareValues[4], squareValues[5]], player) || 
+      allMatch([squareValues[6], squareValues[7], squareValues[8]], player) || 
+      allMatch([squareValues[0], squareValues[3], squareValues[6]], player) || 
+      allMatch([squareValues[1], squareValues[4], squareValues[7]], player) || 
+      allMatch([squareValues[2], squareValues[5], squareValues[8]], player) || 
+      allMatch([squareValues[0], squareValues[4], squareValues[8]], player) || 
+      allMatch([squareValues[2], squareValues[4], squareValues[6]], player)
+    )
+  }
+
+  
   const checkForWinner = () => {
+    // turn rows into an array of squares
     const flattenSquares = squares.flat();
+    // save values from each square into an array
     const squareValues = flattenSquares.map(square => square.value);
             
     if (checkForWinnerHelper(squareValues, PLAYER_1)) {
       setWinner(PLAYER_1);
     } else if (checkForWinnerHelper(squareValues, PLAYER_2)) {
       setWinner(PLAYER_2);
+    // check if every square is filled
     } else if (squareValues.every(value => value !== '')) {
       setWinner('no one!');
     }
   }
 
   const resetGame = () => {
-    setValue(PLAYER_1);
+    setPlayer(PLAYER_1);
     setWinner('');
     setSquares(generateSquares);
   }
